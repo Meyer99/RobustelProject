@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="12dp"
+    android:paddingLeft="12dp"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconTime"
+        android:src="@drawable/time"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTimeText"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/iconTime"
+        android:text="当前时间"
+        android:textColor="#696969"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTime"
+        android:layout_alignLeft="@id/tvTimeText"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/tvTimeText"
+        android:text="2019/05/19 周日 12:08:50"
+        android:textSize="20sp"
+        android:textColor="#404040"/>
+
+    <TextView
+        android:id="@+id/tvTemperatureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTime"
+        android:layout_alignLeft="@id/tvTime"
+        android:layout_marginTop="22dp"
+        android:text="实时温度"
+        android:textColor="#696969"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTemperatureText"
+        android:layout_alignLeft="@id/tvTemperatureText"
+        android:layout_marginTop="8dp"
+        android:text="34 °C"
+        android:textColor="#404040"
+        android:textSize="28sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconTemperature"
+        android:layout_below="@id/iconTime"
+        android:layout_alignTop="@id/tvTemperatureText"
+        android:layout_alignLeft="@id/iconTime"
+        android:src="@drawable/temperature"/>
+
+    <TextView
+        android:id="@+id/tvHumidityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTemperature"
+        android:layout_alignLeft="@id/tvTemperature"
+        android:layout_marginTop="22dp"
+        android:text="实时湿度"
+        android:textColor="#696969"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvHumidity"
+        android:layout_alignLeft="@id/tvHumidityText"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/tvHumidityText"
+        android:textSize="28sp"
+        android:text="60 %"
+        android:textColor="#404040"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconHumidity"
+        android:layout_below="@id/iconTemperature"
+        android:layout_alignTop="@id/tvHumidityText"
+        android:layout_alignLeft="@id/iconTemperature"
+        android:src="@drawable/humidity"/>
+
+</RelativeLayout>

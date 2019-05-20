@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RobustelProject</string>
+    <string name="tab_text_1">实时信息</string>
+    <string name="tab_text_2">温湿度监控</string>
+    <string name="tab_text_3">系统配置</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
