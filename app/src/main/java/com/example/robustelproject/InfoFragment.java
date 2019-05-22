@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.robustelproject.mqtt.ConstValue;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 /**
@@ -51,6 +55,19 @@ public class InfoFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         tvTime = (TextView) view.findViewById(R.id.tvTime);
         new TimeThread().start();
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab1);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"温度: " +
+                      ConstValue.temperatureList.get(ConstValue.temperatureList.size()-1) +"//" +
+                      "湿度: "+ConstValue.humidityList.get(ConstValue.humidityList.size()-1) ,Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 

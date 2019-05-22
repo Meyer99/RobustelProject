@@ -2,38 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingRight="12dp"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:paddingLeft="12dp"
-    android:paddingTop="20dp">
+    android:paddingTop="20dp"
+    android:paddingRight="12dp">
 
     <ImageView
+        android:id="@+id/iconTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/iconTime"
-        android:src="@drawable/time"/>
+        android:src="@drawable/time" />
 
     <TextView
+        android:id="@+id/tvTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTimeText"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/iconTime"
         android:text="当前时间"
         android:textColor="#696969"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTime"
+        android:layout_below="@id/tvTimeText"
         android:layout_alignLeft="@id/tvTimeText"
         android:layout_marginTop="8dp"
-        android:layout_below="@id/tvTimeText"
         android:text="2019/05/19 周日 12:08:50"
-        android:textSize="20sp"
-        android:textColor="#404040"/>
+        android:textColor="#404040"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvTemperatureText"
@@ -58,13 +58,13 @@
         android:textSize="28sp" />
 
     <ImageView
+        android:id="@+id/iconTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/iconTemperature"
         android:layout_below="@id/iconTime"
-        android:layout_alignTop="@id/tvTemperatureText"
         android:layout_alignLeft="@id/iconTime"
-        android:src="@drawable/temperature"/>
+        android:layout_alignTop="@id/tvTemperatureText"
+        android:src="@drawable/temperature" />
 
     <TextView
         android:id="@+id/tvHumidityText"
@@ -78,24 +78,38 @@
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tvHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvHumidity"
+        android:layout_below="@id/tvHumidityText"
         android:layout_alignLeft="@id/tvHumidityText"
         android:layout_marginTop="8dp"
-        android:layout_below="@id/tvHumidityText"
-        android:textSize="28sp"
         android:text="60 %"
         android:textColor="#404040"
-        />
+        android:textSize="28sp" />
 
     <ImageView
+        android:id="@+id/iconHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/iconHumidity"
         android:layout_below="@id/iconTemperature"
-        android:layout_alignTop="@id/tvHumidityText"
         android:layout_alignLeft="@id/iconTemperature"
-        android:src="@drawable/humidity"/>
+        android:layout_alignTop="@id/tvHumidityText"
+        android:src="@drawable/humidity" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:src="@drawable/refresh"
+        android:visibility="visible" />
 
 </RelativeLayout>
