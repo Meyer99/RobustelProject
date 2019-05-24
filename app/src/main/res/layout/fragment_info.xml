@@ -53,7 +53,7 @@
         android:layout_below="@id/tvTemperatureText"
         android:layout_alignLeft="@id/tvTemperatureText"
         android:layout_marginTop="8dp"
-        android:text="34 °C"
+        android:text="N/A"
         android:textColor="#404040"
         android:textSize="28sp" />
 
@@ -84,7 +84,7 @@
         android:layout_below="@id/tvHumidityText"
         android:layout_alignLeft="@id/tvHumidityText"
         android:layout_marginTop="8dp"
-        android:text="60 %"
+        android:text="N/A"
         android:textColor="#404040"
         android:textSize="28sp" />
 

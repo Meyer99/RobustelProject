@@ -8,6 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 /**
@@ -16,6 +21,8 @@ import android.view.ViewGroup;
 public class ConfigureFragment extends Fragment
 {
 
+    private TextInputEditText tvUserName, tvPassword, tvSSL, tvTopic;
+    private MaterialButton btnConfigure, btnReset;
 
     public ConfigureFragment()
     {
@@ -28,7 +35,50 @@ public class ConfigureFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_configure, container, false);
+        View view = inflater.inflate(R.layout.fragment_configure, container, false);
+        tvUserName = (TextInputEditText) view.findViewById(R.id.name);
+        tvPassword = (TextInputEditText) view.findViewById(R.id.password);
+        tvSSL = (TextInputEditText) view.findViewById(R.id.ssl);
+        tvTopic = (TextInputEditText) view.findViewById(R.id.topic);
+
+        btnConfigure = (MaterialButton) view.findViewById(R.id.btnConfigure);
+        btnReset = (MaterialButton) view.findViewById(R.id.btnReset);
+
+        btnConfigure.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(tvUserName.getText().length() != 0 &&
+                tvPassword.getText().length() != 0 &&
+                tvSSL.getText().length() != 0 &&
+                tvTopic.getText().length() != 0)
+                {
+                    Toast.makeText(getContext(),"配置成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"请输入正确的参数信息",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        btnReset.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                tvUserName.setText("");
+                tvPassword.setText("");
+                tvSSL.setText("");
+                tvTopic.setText("");
+            }
+        });
+
+
+
+        return view;
     }
 
 }

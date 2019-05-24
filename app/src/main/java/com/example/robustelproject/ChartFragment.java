@@ -7,11 +7,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Message;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.robustelproject.mqtt.ConstValue;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,6 +29,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,8 +44,33 @@ public class ChartFragment extends Fragment
     private LineChart chart1, chart2;
     protected Typeface tfLight;
     private FloatingActionButton fab;
-    private ArrayList<Entry> values1 = new ArrayList<>();
-    private ArrayList<Entry> values2 = new ArrayList<>();
+    private ArrayList<Entry> values1 = new ArrayList<>(10);
+    private ArrayList<Entry> values2 = new ArrayList<>(10);
+    private static final int msgKey1 = 1;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage (Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case msgKey1:
+                    if (ConstValue.temperatureList.size() < 10)
+                    {
+                        //Toast.makeText(getContext(), "等待数据传入，请稍后再试2", Toast.LENGTH_SHORT).show();
+                    } else
+                    {
+                        setData(10);
+                        chart1.animateX(1000);
+                        chart2.animateX(1000);
+                        //Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+
 
     public ChartFragment()
     {
@@ -60,12 +92,19 @@ public class ChartFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                chart1.animateX(1000);
-                chart2.animateX(1000);
-                Toast.makeText(getContext(),"刷新成功", Toast.LENGTH_SHORT).show();
+                if (ConstValue.temperatureList.size() < 10)
+                {
+                    Toast.makeText(getContext(), "等待数据传入，请稍后再试", Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    setData(10);
+                    chart1.animateX(1000);
+                    chart2.animateX(1000);
+                    Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
+        new TimeThread().start();
         tfLight = Typeface.createFromAsset(getContext().getAssets(), "OpenSans-Light.ttf");
 
         // no description text
@@ -92,13 +131,14 @@ public class ChartFragment extends Fragment
         chart1.setBackgroundColor(Color.WHITE);
         chart2.setBackgroundColor(Color.WHITE);
 
-        setData(10, 50);
+       /* setData(10);*/
 
-        chart1.invalidate();
+        /*chart1.invalidate();
+        chart2.invalidate();
         chart1.animateX(1000);
-        chart2.animateX(1000);
+        chart2.animateX(1000);*/
 
-        // get the legend (only possible after setting data)
+        /*// get the legend (only possible after setting data)
         Legend l = chart1.getLegend();
 
         // modify the legend ...
@@ -166,26 +206,156 @@ public class ChartFragment extends Fragment
        xAxis2.setTextColor(Color.WHITE);
        xAxis2.setDrawGridLines(false);
        xAxis2.setDrawAxisLine(false);
-       xAxis2.setEnabled(false);
+       xAxis2.setEnabled(false);*/
 
         return view;
     }
 
-    private void setData(int count, float range)
+    private void setData(int count)
     {
 
+        if (values1.size() < 9){
+            for (int i = 1; i < count + 1; i++)
+            {
+                values1.add(new Entry(i, i));
+                values2.add(new Entry(i, i));
+            }
+        }
 
-        for (int i = 1; i < count + 1; i++) {
-            float val = (float) (Math.random() * 4f - 2f) + 30;
-            values1.add(new Entry(i, val));
+
+        /*int size = ConstValue.temperatureList.size();
+        if (size > 10)
+            size = 10;
+
+        int difference = size - previousSize;
+        if (difference > 0)
+        {
+
+        }
+
+        previousSize = size;
+
+
+        String temp = "";
+        for(int i = 0; i < ConstValue.temperatureList.size(); i++){
+            temp = temp + ConstValue.temperatureList.get(i) + " ";
+        }
+        Log.i("content", temp);
+        Log.i("size", size + "");*/
+
+        ArrayList<Float> temperature = new ArrayList<>();
+        ArrayList<Float> humidity = new ArrayList<>();
+
+        int size = ConstValue.temperatureList.size();
+        if (size > 10)
+            size = 10;
+        for (int i = ConstValue.temperatureList.size() - size; i < ConstValue.temperatureList.size(); i++)
+        {
+            temperature.add(Float.parseFloat((String) ConstValue.temperatureList.get(i)));
+            humidity.add(Float.parseFloat((String) ConstValue.humidityList.get(i)));
+        }
+
+       /* size = temperature.size();
+        temp = "";
+        for(int i = 0; i < temperature.size(); i++){
+            temp = temp + temperature.get(i) + " ";
+        }
+        Log.i("content", temp);
+        Log.i("size", size + "");*/
+
+
+
+        /*values1 = new ArrayList<Entry>();
+        values2 = new ArrayList<Entry>();*/
+
+        for (int i = 1; i < temperature.size() + 1; i++) {
+            values1.set(i - 1, (new Entry(i, temperature.get(i- 1))));
+            values2.set(i - 1, (new Entry(i, humidity.get(i - 1))));
         }
 
 
 
-        for (int i = 1; i < count + 1; i++) {
-            float val = (float) (Math.random() * 10f - 5f) + 60;
-            values2.add(new Entry(i, val));
-        }
+        // get the legend (only possible after setting data)
+        Legend l = chart1.getLegend();
+
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTypeface(tfLight);
+        l.setTextSize(13f);
+        l.setTextColor(Color.BLACK);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+//        l.setYOffset(11f);
+
+        l = chart2.getLegend();
+
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTypeface(tfLight);
+        l.setTextSize(13f);
+        l.setTextColor(Color.BLACK);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+//        l.setYOffset(11f);
+
+        XAxis xAxis1 = chart1.getXAxis();
+        xAxis1.setAxisMinimum(0);
+        xAxis1.setAxisMaximum(11);
+        xAxis1.setTypeface(tfLight);
+        xAxis1.setTextSize(11f);
+        xAxis1.setTextColor(Color.WHITE);
+        xAxis1.setDrawGridLines(false);
+        xAxis1.setDrawAxisLine(false);
+        xAxis1.setEnabled(false);
+
+
+        YAxis leftAxis1 = chart1.getAxisLeft();
+        leftAxis1.setTypeface(tfLight);
+        leftAxis1.setTextColor(Color.RED);
+        leftAxis1.setAxisMaximum(getExtremum(values1, 1) + 2);
+        leftAxis1.setAxisMinimum(getExtremum(values1, 0) - 2);
+        leftAxis1.setDrawGridLines(true);
+        leftAxis1.setGranularityEnabled(true);
+
+        YAxis rightAxis1 = chart1.getAxisRight();
+        rightAxis1.setEnabled(false);
+
+        YAxis leftAxis2 = chart2.getAxisLeft();
+        leftAxis2.setTypeface(tfLight);
+        leftAxis2.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis2.setAxisMaximum(getExtremum(values2, 1) + 2);
+        leftAxis2.setAxisMinimum(getExtremum(values2, 0) - 2);
+        leftAxis2.setDrawGridLines(true);
+//        leftAxis2.setDrawZeroLine(false);
+        leftAxis2.setGranularityEnabled(true);
+
+        YAxis rightAxis2 = chart2.getAxisRight();
+        rightAxis2.setEnabled(false);
+
+        XAxis xAxis2 = chart2.getXAxis();
+        xAxis2.setAxisMinimum(0);
+        xAxis2.setAxisMaximum(11);
+        xAxis2.setTypeface(tfLight);
+        xAxis2.setTextSize(11f);
+        xAxis2.setTextColor(Color.WHITE);
+        xAxis2.setDrawGridLines(false);
+        xAxis2.setDrawAxisLine(false);
+        xAxis2.setEnabled(false);
+
+
+
+
+
+
+
+
+
+
+
+
 
         LineDataSet set1, set2;
 
@@ -199,6 +369,10 @@ public class ChartFragment extends Fragment
 
             chart1.getData().notifyDataChanged();
             chart1.notifyDataSetChanged();
+            chart2.getData().notifyDataChanged();
+            chart2.notifyDataSetChanged();
+            chart1.invalidate();
+            chart2.invalidate();
         } else {
             // create a dataset and give it a type
             set1 = new LineDataSet(values1, "温度 / °C");
@@ -255,6 +429,7 @@ public class ChartFragment extends Fragment
             // set data
             chart1.setData(data1);
             chart2.setData(data2);
+
         }
     }
 
@@ -292,4 +467,26 @@ public class ChartFragment extends Fragment
 //        chart1.animateX(1000);
 //        chart2.animateX(1000);
 //    }
+
+    public class TimeThread extends Thread
+    {
+        @Override
+        public void run ()
+        {
+            do {
+                try
+                {
+
+                    Message msg = new Message();
+                    msg.what = msgKey1;
+                    mHandler.sendMessage(msg);
+                    Thread.sleep(10000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            } while(true);
+        }
+    }
 }

@@ -18,8 +18,8 @@ public class SubscribeSample {
     public SubscribeSample() throws MqttException {
 
         try {
-            ConstValue.temperatureList.add(23);
-            ConstValue.humidityList.add(23);
+            /*ConstValue.temperatureList.add("27");
+            ConstValue.humidityList.add("76");*/
 
             // host为主机名，test为clientid即连接MQTT的客户端ID，一般以客户端唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
             MqttClient client = new MqttClient(ConstValue.HOST, ConstValue.clientid, new MemoryPersistence());

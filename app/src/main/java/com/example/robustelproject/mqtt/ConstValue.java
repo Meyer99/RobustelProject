@@ -7,12 +7,12 @@ import java.util.ArrayList;
 //存储app中的常量数
 public class ConstValue {
     //用于Mqtt连接的常量
-    public static String HOST = "ssl://g40udfd.mqtt.iot.gz.baidubce.com:1884";
-    public static String TOPIC_SUBSCRIBE_SUCCESS = "$baidu/iot/shadow/myMonitor/update/accepted";
+    public static String HOST = "ssl://w16kkre.mqtt.iot.gz.baidubce.com:1884";
+    public static String TOPIC_SUBSCRIBE_SUCCESS = "$baidu/iot/shadow/myHumiture/update/accepted";
     public static int qos = 0;
     public static String clientid = "aaaa";
-    public static String userName = "g40udfd/android";
-    public static String passWord = "9rjvnudzj4ejrxxy";
+    public static String userName = "w16kkre/humiture_client";
+    public static String passWord = "xchjakwtk6xfs8fu";
 
     //用于存储温湿度的信息
     public static ArrayList temperatureList = new ArrayList();

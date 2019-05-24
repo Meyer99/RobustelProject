@@ -18,6 +18,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Random;
+
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -30,13 +33,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         PermissionTool.requestPermission(this, ConstValue.ALL_PERMISSIONS_REQUEST_CODE);
-        TelephonyManager tm = (TelephonyManager) this.getSystemService(getApplication().TELEPHONY_SERVICE);
+        /*TelephonyManager tm = (TelephonyManager) this.getSystemService(getApplication().TELEPHONY_SERVICE);
         try {
             ConstValue.clientid = tm.getLine1Number();
         } catch (SecurityException e) {
             Toast.makeText(this, "未获得相关权限，,当前为默认设备名，还请授予权限",Toast.LENGTH_LONG).show();
             //e.printStackTrace();
-        }
+        }*/
+
+
+
+        ConstValue.clientid = getRandomString(10);
 
 
         final SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -46,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         try{
             SubscribeSample subscribeSample = new SubscribeSample();
         }catch(Exception e){
-            ;
+            e.printStackTrace();
         }
 
 
@@ -78,5 +85,15 @@ public class MainActivity extends AppCompatActivity
 //        });
     }
 
+    public static String getRandomString(int length){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random=new Random();
+        StringBuffer sb=new StringBuffer();
+        for(int i=0;i<length;i++){
+            int number=random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
+    }
 
 }
